@@ -12,20 +12,12 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173', // для разработки
   'https://localhost:5173',
+  'https://labs-liard.vercel.app', // ваш Vercel домен
   process.env.FRONTEND_URL // для продакшена
 ].filter(Boolean);
 
 app.use(cors({ 
-  origin: function (origin, callback) {
-    // разрешаем запросы без origin (например, Postman)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // временно разрешаем все домены для тестирования
   credentials: true
 }));
 app.use(bodyParser.json());
