@@ -9,7 +9,25 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+const allowedOrigins = [
+  'http://localhost:5173', // для разработки
+  'https://localhost:5173',
+  process.env.FRONTEND_URL // для продакшена
+].filter(Boolean);
+
+app.use(cors({ 
+  origin: function (origin, callback) {
+    // разрешаем запросы без origin (например, Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // Create transporter
@@ -23,7 +41,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// POST /send-email route
+// POST /api/contact route
 app.post("/api/contact", async (req, res) => {
   const { fullName, email, company, projectDetails } = req.body;
 
@@ -53,9 +71,14 @@ ${projectDetails}
   }
 });
 
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ status: "OK", message: "Backend is running" });
+});
+
 // Start server
-app.listen(process.env.PORT, () => {
-  console.log(`🚀 Server is running on port ${process.env.PORT}`);
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`🚀 Server is running on port ${process.env.PORT || 3001}`);
   console.log(`📧 Email will be sent to: ${process.env.EMAIL_TO}`);
-  console.log(`🌐 CORS enabled for: ${process.env.CORS_ORIGIN}`);
+  console.log(`🌐 CORS enabled for: ${process.env.CORS_ORIGIN || "*"}`);
 });
