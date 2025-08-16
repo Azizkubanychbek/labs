@@ -654,10 +654,8 @@ function App() {
       <nav className="fixed top-0 w-full z-50 bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="text-xl font-bold text-white">
-                anteyko<span className="text-blue-400">Labs</span>
-              </div>
+            <div className="flex items-center -ml-2">
+              <img src="/logo.png" alt="anteykoLabs" className="h-10 w-auto" />
             </div>
             
             <div className="hidden md:flex items-center space-x-8">
@@ -688,7 +686,10 @@ function App() {
               <button className="text-slate-300 hover:text-white transition-colors duration-300">
                 Login
               </button>
-              <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
+              >
                 Get Started
               </button>
             </div>
@@ -702,6 +703,50 @@ function App() {
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed top-16 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-b border-slate-700/50 z-40">
+          <div className="px-6 py-4 space-y-4">
+            {[
+              { name: 'Home', id: 'home' },
+              { name: 'Solutions', id: 'solutions' },
+              { name: 'Products', id: 'products' },
+              { name: 'Cases', id: 'cases' },
+              { name: 'About', id: 'about' },
+              { name: 'FAQ', id: 'faq' },
+              { name: 'Contact', id: 'contact' }
+            ].map((item) => (
+              <a 
+                key={item.id}
+                href={`#${item.id}`} 
+                onClick={() => setIsMenuOpen(false)}
+                className={`block text-lg font-medium transition-colors duration-300 ${
+                  activeSection === item.id 
+                    ? 'text-blue-400' 
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                {item.name}
+              </a>
+            ))}
+            <div className="pt-4 border-t border-slate-700">
+              <button className="text-slate-300 hover:text-white transition-colors duration-300 block w-full text-left mb-2">
+                Login
+              </button>
+              <button 
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  setIsMenuOpen(false);
+                }}
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-all duration-300 w-full"
+              >
+                Get Started
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section id="home" ref={heroRef} className="min-h-screen flex items-center justify-center relative z-10 pt-16">
@@ -726,17 +771,21 @@ function App() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                <button className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:rotate-1 flex items-center justify-center relative overflow-hidden">
+                <button 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:rotate-1 flex items-center justify-center relative overflow-hidden"
+                >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                   Start Your Project
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 group-hover:scale-110 transition-all duration-300" />
                 </button>
                 
-                <button className="group border border-slate-600 hover:border-blue-400 px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-blue-600/10 hover:scale-105 hover:-rotate-1 flex items-center justify-center relative overflow-hidden">
+                {/* Временно скрыта кнопка Watch Demo */}
+                {/* <button className="group border border-slate-600 hover:border-blue-400 px-8 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-blue-600/10 hover:scale-105 hover:-rotate-1 flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-blue-600/0 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
                   <Play className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                   Watch Demo
-                </button>
+                </button> */}
               </div>
               
               <div className="grid grid-cols-4 gap-6 pt-8 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
@@ -877,12 +926,13 @@ function App() {
                   </div>
                   
                   <div className="flex space-x-4">
-                    <button className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+                    <button 
+                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
+                    >
                       Learn More
                     </button>
-                    <button className="px-4 py-2 border border-slate-600 hover:border-blue-400 rounded-lg font-medium transition-all duration-300 hover:bg-blue-600/10">
-                      Demo
-                    </button>
+                    {/* Убрана кнопка Demo */}
                   </div>
                 </div>
               </div>
@@ -1241,9 +1291,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-2">
-              <div className="text-xl font-bold text-white mb-4">
-                anteyko<span className="text-blue-400">Labs</span>
-              </div>
+              <img src="/logo.png" alt="anteykoLabs" className="h-12 w-auto mb-4" />
               <p className="text-slate-400 mb-4 max-w-md">
                 Building the future through innovative enterprise software solutions. 
                 Transform your business with our cutting-edge technology.
@@ -1261,20 +1309,60 @@ function App() {
             <div>
               <h3 className="text-white font-bold mb-4">Solutions</h3>
               <div className="space-y-2 text-slate-400">
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Asset Tokenization</div>
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Accounting Systems</div>
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Restaurant Management</div>
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Business Intelligence</div>
+                <div 
+                  onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Asset Tokenization
+                </div>
+                <div 
+                  onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Accounting Systems
+                </div>
+                <div 
+                  onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Restaurant Management
+                </div>
+                <div 
+                  onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Business Intelligence
+                </div>
               </div>
             </div>
             
             <div>
               <h3 className="text-white font-bold mb-4">Company</h3>
               <div className="space-y-2 text-slate-400">
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">About Us</div>
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Careers</div>
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Contact</div>
-                <div className="hover:text-white transition-colors duration-300 cursor-pointer">Support</div>
+                <div 
+                  onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  About Us
+                </div>
+                <div 
+                  onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Careers
+                </div>
+                <div 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Contact
+                </div>
+                <div 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Support
+                </div>
               </div>
             </div>
           </div>
